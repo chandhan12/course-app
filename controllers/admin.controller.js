@@ -67,7 +67,32 @@ const signin=async (req,res)=>{
 
 }
 
+const profile=async (req,res) =>{
+    try {
+     const adminId=req.adminId
+ 
+ 
+     const profileData=await Admin.findById({
+         _id:adminId
+     })
+ 
+     if(profileData){
+         res.status(200).send({
+             yourProfileData:profileData
+         })
+     }
+ 
+     
+    } catch (error) {
+     res.send({
+         error:error.message
+     })
+    }
+ 
+ }
+
 module.exports={
     signup,
-    signin
+    signin,
+    profile
 }

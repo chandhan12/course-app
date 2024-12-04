@@ -41,7 +41,7 @@ const signin=async (req,res)=>{
         })
     }
 
-    const matchedPassword=bcrypt.compare(password,existingUser.password)
+    const matchedPassword=await bcrypt.compare(password,existingUser.password)
 
     if(!matchedPassword){
         return res.status(403).send({
@@ -66,7 +66,32 @@ const signin=async (req,res)=>{
 
 }
 
+const profile=async (req,res) =>{
+   try {
+    const userId=req.userId
+
+
+    const profileData=await User.findById({
+        _id:userId
+    })
+
+    if(profileData){
+        res.status(200).send({
+            yourProfileData:profileData
+        })
+    }
+
+    
+   } catch (error) {
+    res.send({
+        error:error.message
+    })
+   }
+
+}
+
 module.exports={
     signup,
-    signin
+    signin,
+    profile
 }
