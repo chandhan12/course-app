@@ -2,6 +2,7 @@
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
 const { Admin } = require("../models/adminSchema")
+const { Course } = require("../models/courseSchema")
 
 
 const signup=async (req,res) =>{
@@ -91,8 +92,81 @@ const profile=async (req,res) =>{
  
  }
 
+
+const addCourse=async (req,res)=>{
+  try {
+    const {title,description,price,imgUrl}=req.body
+    const adminId=req.adminId
+
+    await Course.create({
+        title,
+        description,
+        price,
+        imgUrl, 
+        creatorId:adminId
+    })
+
+    res.status(200).send({
+        msg:"course created successfully"
+    })
+
+  } catch (error) {
+    
+    res.status(500).send({
+        error:error.message
+    })
+  }
+}
+
+const getCourse =async (req,res) =>{
+   try {
+    const adminId=req.adminId
+
+    const courses= await Course.find({
+         creatorId:adminId
+     })
+     res.status(200).send({
+         courses
+     })
+ 
+   } catch (error) {
+    res.status(500).send({
+        error:error.message
+    })
+    
+   }
+}
+
+const updateCourse=async(req,res)=>{
+  try {
+    const adminId=req.adminId
+    const {courseId,price,title}=req.body
+    
+
+    await Course.findOneAndUpdate({
+        _id:courseId,
+        creatorId:adminId
+    },{
+        price,
+        title
+    })
+
+    res.status(200).send({
+        msg:"course updated successfully"
+    })
+  } catch (error) {
+    res.status(500).send({
+        error:error.message
+    })
+    
+  }
+}
+
 module.exports={
     signup,
     signin,
-    profile
+    profile,
+    addCourse,
+    getCourse,
+    updateCourse
 }
