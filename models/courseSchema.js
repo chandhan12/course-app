@@ -15,6 +15,10 @@ const courseSchema=mongoose.Schema({
         type:Number,
         required:true
     },
+    imgUrl:{
+        type:String,
+        required:true
+    },
     creatorId:{
         type:mongoose.Types.ObjectId,
         ref:"Admin"

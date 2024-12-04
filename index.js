@@ -1,10 +1,17 @@
 const express=require("express")
 const mongoose=require("mongoose")
-const dotenv=require("dotenv")
-
+const dotenv=require("dotenv");
+const { UserRouter } = require("./Routes/userRouter");
+const {AdminRouter}=require("./Routes/AdminRouter")
 
 const app=express();
 app.use(express.json())
+
+app.use("/api/user",UserRouter)
+
+app.use("/api/admin",AdminRouter)
+
+
 
 dotenv.config()
 
