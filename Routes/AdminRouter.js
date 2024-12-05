@@ -1,4 +1,4 @@
-const { signin, signup, profile, addCourse, getCourse, updateCourse } =require("../controllers/admin.controller")
+const { signin, signup, profile, addCourse, getCourse, updateCourse, deleteCourse } =require("../controllers/admin.controller")
 
 const express =require("express")
 const { adminMiddleware } = require("../middlewares/adminMiddleware")
@@ -14,6 +14,7 @@ AdminRouter.get("/profile",adminMiddleware, profile)
 AdminRouter.post("/course",adminMiddleware, addCourse)
 AdminRouter.get("/course",adminMiddleware, getCourse)
 AdminRouter.put("/course",adminMiddleware, updateCourse)
+AdminRouter.delete("/course",adminMiddleware, deleteCourse)
 
 
 module.exports={

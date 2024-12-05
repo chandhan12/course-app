@@ -1,6 +1,8 @@
 const { User } = require("../models/userSchema")
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
+const { Course } = require("../models/courseSchema")
+const { Purchase } = require("../models/purchase")
 
 
 const signup=async (req,res) =>{
@@ -90,8 +92,75 @@ const profile=async (req,res) =>{
 
 }
 
+const getCourse=async (req,res) =>{
+ try {
+       
+  const courses= await  Course.find()
+
+  res.status(200).send({
+    courses
+  })
+
+ } catch (error) {
+    res.status(500).send({
+        error:error.message
+    })
+ }
+}
+
+const buyCourse= async  (req,res)=>{
+   try {
+    const {courseId}=req.body
+    const userId= req.userId
+
+   const existCourse=await  Purchase.findOne({
+        courseId:courseId,
+        userId:userId
+    })
+    if(existCourse){
+        return res.send({
+           msg: "course is already purchased"
+        })
+    }
+
+    await Purchase.create({
+        courseId:courseId,
+        userId:userId
+    })
+
+    res.status(200).send({
+        msg:"course puchased successfully"
+    })
+   } catch (error) {
+    res.status(500).send({
+        error:error.message
+    })
+   }
+}
+const getPurchases=async(req,res)=>{
+   try {
+    const userId=req.userId
+
+    const purchases= await Purchase.find({
+          userId:userId
+      }).populate("courseId","title description")
+  
+  
+      res.send({
+          purchases
+      })
+   } catch (error) {
+    res.status(500).send({
+        error:error.message
+    })
+   }
+}
+
 module.exports={
     signup,
     signin,
-    profile
+    profile,
+    getCourse,
+    buyCourse,
+    getPurchases
 }

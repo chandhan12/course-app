@@ -1,13 +1,16 @@
 const mongoose=require("mongoose")
+const { Course } = require("./courseSchema")
+const { User } = require("./userSchema")
 
 const purchaseSchema=mongoose.Schema({
     courseId:{
         type:mongoose.Types.ObjectId,
-        ref:"Course"
+        ref:Course
     },
     userId:{
         type:mongoose.Types.ObjectId,
-        ref:"User"
+        ref:User,
+        required:true
     }
 })
 
