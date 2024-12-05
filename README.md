@@ -1,3 +1,3 @@
 # course-app
 
-#complete backend for course selling app
+# complete backend for course selling app
