@@ -99,7 +99,7 @@ const getCourse=async (req,res) =>{
 
   res.status(200).send({
     courses
-  })
+  }) 
 
  } catch (error) {
     res.status(500).send({
@@ -146,6 +146,9 @@ const getPurchases=async(req,res)=>{
       }).populate("courseId","title description")
   
   
+
+
+      
       res.send({
           purchases
       })

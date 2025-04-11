@@ -167,10 +167,17 @@ const deleteCourse =async (req,res) =>{
     const {courseId}=req.body
     const adminId=req.adminId
 
-    await Course.findOneAndDelete({
+    const response=await Course.findOneAndDelete({
         _id:courseId,
         creatorId:adminId
     })
+    console.log(response)
+
+    if(!response){
+        return res.send({
+            msg:"something went wrong"
+        })
+    }
 
     res.send({
         msg:"coures deleted successfully"
